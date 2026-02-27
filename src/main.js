@@ -31,31 +31,13 @@ const applySequenceRules = (input) => ({
   willCount: input.will ? normalizeWillCount(input.willCount) : 0,
 });
 
-const DEMO_SLOT_COUNT = 25;
-const DEMO_SLOT_SIZE = 140;
-
 const createDemoState = () => {
-  const will = Math.random() >= 0.5;
   return applySequenceRules({
     thought: Math.random() >= 0.5,
-    will,
+    will: Math.random() >= 0.5,
     awa: Math.random() >= 0.5,
-    willCount: will ? Math.floor(Math.random() * 11) : 0,
+    willCount: Math.random() >= 0.5 ? Math.floor(Math.random() * 11) : 0,
   });
-};
-
-const buildDemoSlots = () => {
-  return Array.from({ length: DEMO_SLOT_COUNT }, (_, index) => {
-    const sample = createDemoState();
-    return `
-      <div class="demo-canvas" data-demo-slot="${index + 1}" data-state="${sample.thought ? '1' : '0'}-${sample.will ? '1' : '0'}-${sample.awa ? '1' : '0'}-${sample.willCount}">
-        ${pathGenerator([sample.thought, sample.will, sample.awa], {
-          size: DEMO_SLOT_SIZE,
-          willCount: sample.willCount,
-        })}
-      </div>
-    `;
-  }).join('');
 };
 
 const getSize = () => {
@@ -118,12 +100,6 @@ const render = () => {
           willCount: state.willCount,
         })}
       </div>
-      <section class="demo">
-        <h2>Demo</h2>
-        <div class="demo-grid">
-          ${buildDemoSlots()}
-        </div>
-      </section>
     </main>
   `;
 
